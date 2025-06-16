@@ -80,7 +80,7 @@ Read these instruction files and await my next prompt.
 ├── output_template.md          # Standardized story format
 ├── reference_card.md           # Quick reference for common issues
 ├── sample_workflows.md         # Example prompts and usage
-├── nfr_catalog.csv            # Non-functional requirements catalog
+├── nfr_catalog.yaml            # Non-functional requirements catalog
 └── examples/                   # Sample stories (good and bad)
 ```
 
