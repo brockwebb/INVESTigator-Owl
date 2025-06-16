@@ -195,29 +195,6 @@
         ]
       }
     },
-    "nfr_integration": {
-      "trigger_patterns": {
-        "security": ["encrypt", "auth", "login", "password", "secure", "privacy", "access", "permission"],
-        "accessibility": ["508", "wcag", "screen.?reader", "keyboard", "disabilit", "vision", "hearing"],
-        "compliance": ["audit", "regulat", "policy", "sox", "hipaa", "gdpr", "retention"],
-        "usability": ["interface", "experience", "navigation", "intuitive", "easy", "workflow", "ux"],
-        "performance": ["fast", "slow", "load.?time", "response", "speed", "optim", "latenc"],
-        "availability": ["uptime", "24.?7", "downtime", "backup", "disaster", "recovery", "availab"]
-      },
-      "nfr_exception_rules": {
-        "accessibility": ["system_to_system_story", "batch_processing_story"],
-        "usability": ["api_only_story", "backend_service_story"]
-      },
-      "nfr_check_first": "Before suggesting NFR considerations, ask: 'Are these requirements already addressed elsewhere in your project?'",
-      "nfr_prompts": {
-        "security": "Consider: Who can access this data? How is sensitive information protected? Are there authentication requirements?",
-        "accessibility": "Consider: Can users with disabilities access this feature? Does it meet 508 compliance requirements?",
-        "compliance": "Consider: Are there regulatory requirements? What audit trails are needed? Any approval workflows?",
-        "usability": "Consider: Is this intuitive for your target users? Have you tested the user workflow?",
-        "performance": "Consider: What response time do users expect? How will this perform under load?",
-        "availability": "Consider: When do users need this available? What happens if the system is down?"
-      }
-    },
     "scoring_calculation": {
       "weighted_critical_score": "sum(critical_weight for all fired critical triggers)",
       "default_critical_weight": 1,
@@ -252,7 +229,7 @@
         ]
       },
       "next_steps_suggestions": {
-        "ready_for_development": "Story appears well-defined. Consider adding any relevant NFR considerations before development starts.",
+        "ready_for_development": "Story appears well-defined. Consider any additional technical or business considerations before development starts.",
         "needs_refinement": "Focus on critical issues first: [list specific critical triggers]. Advisory improvements can be addressed as time permits.",
         "requires_research": "Step back and validate the user problem. Consider user interviews, prototyping, or technical spikes before writing detailed stories."
       },
@@ -269,7 +246,6 @@
       }
     },
     "usage_guidance": {
-      "story_tagging_requirement": "Stories must include story_tags array for exception rule processing",
       "for_authors": "Questions ≠ blockers. Use your judgment to prioritize which feedback to address.",
       "for_reviewers": "Focus on critical items first. Advisory suggestions are opportunities, not requirements.",
       "confidence_interpretation": "High confidence = likely accurate, Medium = review carefully, Low = consider context"
