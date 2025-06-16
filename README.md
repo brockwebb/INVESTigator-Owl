@@ -11,7 +11,6 @@ This project demonstrates how AI can augment human thinking to improve user stor
 - **Evaluates user stories** against INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)
 - **Asks coaching questions** to improve weak areas rather than just flagging problems
 - **Suggests specific improvements** with clear reasoning
-- **Identifies relevant compliance requirements** (NFRs) based on story content
 - **Outputs standardized stories** ready for copy/paste into your tools
 
 ## Value Proposition
@@ -32,14 +31,12 @@ The system uses a structured evaluation framework that:
 2. **Applies pattern matching** to identify common problems (vague users, solution-focused goals, untestable criteria)
 3. **Generates coaching questions** specific to the issues found
 4. **Suggests concrete improvements** with examples
-5. **Surfaces compliance considerations** when relevant keywords are detected
-6. **Maintains a conversational, helpful tone** that encourages iteration
+5. **Maintains a conversational, helpful tone** that encourages iteration
 
 ## Key Features
 
 - **Coaching over scoring** - Questions that promote thinking rather than grades
 - **Works with messy input** - No rigid format requirements
-- **NFR integration** - Automatically suggests relevant compliance requirements
 - **Iterative improvement** - Supports multiple rounds of refinement
 - **Portable design** - Works with any LLM platform
 
@@ -68,7 +65,7 @@ Read these instruction files and await my next prompt.
 
 **Input:** "As a user I want to update my profile so it's current"
 
-**Output:** Coaching questions about who specifically needs this, what "current" means, how you'd test success, plus relevant security/compliance considerations for profile data.
+**Output:** Coaching questions about who specifically needs this, what "current" means, how you'd test success.
 
 ## Project Structure
 
@@ -80,7 +77,6 @@ Read these instruction files and await my next prompt.
 ├── output_template.md          # Standardized story format
 ├── reference_card.md           # Quick reference for common issues
 ├── sample_workflows.md         # Example prompts and usage
-├── nfr_catalog.yaml            # Non-functional requirements catalog
 └── examples/                   # Sample stories (good and bad)
 ```
 
@@ -93,7 +89,11 @@ This is a teaching example demonstrating AI-augmented workflows. Feel free to:
 - Share improvements back to the community
 
 ## License
+
 MIT
+
+My ethos: Open Source for Life! Use, modify, and share freely.
+
 ---
 
 *Built to demonstrate that AI works best as a thinking partner, not a replacement for human judgment.*
