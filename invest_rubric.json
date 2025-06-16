@@ -1,0 +1,278 @@
+{
+  "story_quality_evaluation": {
+    "schema_version": "2025-06-16a",
+    "assessment_approach": "coaching_questions_over_scores",
+    "output_modes": {
+      "coaching": "Full questions and improvement prompts",
+      "quick_scan": "Critical issues only with one-line summaries",
+      "batch_summary": "List stories with critical issues for grooming meetings"
+    },
+    "severity_levels": {
+      "critical": "Blocks development or creates significant risk (must be ≥medium confidence)",
+      "advisory": "Improvement opportunity but not blocking"
+    },
+    "confidence_rules": {
+      "critical_triggers_require": "medium_or_high_confidence",
+      "low_confidence_critical_becomes": "advisory",
+      "schema_validation": "Raise error if severity=critical AND confidence=low"
+    },
+    "fundamental_component_check": {
+      "required_components": [
+        {
+          "component": "role_present_and_specific",
+          "check": "Story contains 'As a [specific role]' not just 'As a user'"
+        },
+        {
+          "component": "goal_clearly_stated", 
+          "check": "Story contains 'I want to [specific action/outcome]'"
+        },
+        {
+          "component": "benefit_explained",
+          "check": "Story contains 'so that [clear benefit/value]'"
+        },
+        {
+          "component": "at_least_one_acceptance_criteria",
+          "check": "Story has at least one testable acceptance criterion"
+        }
+      ],
+      "missing_fundamentals_message": "Story structure needs basic components before detailed evaluation",
+      "routing_impact": "Missing fundamentals forces requires_research classification"
+    },
+    "evaluation_dimensions": {
+      "story_structure": {
+        "description": "Clear role/goal/benefit format that focuses on user needs",
+        "evaluation_triggers": [
+          {
+            "id": "SS-MISSING_ROLE",
+            "condition": "missing_role_or_vague_user",
+            "dimension": "invest_i",
+            "severity": "critical",
+            "critical_weight": 3,
+            "confidence": "high",
+            "question": "Who specifically has this need? Can you be more precise than 'user' or 'customer'?",
+            "improvement_prompt": "Consider: job role, context, or situation that creates this need",
+            "exception_check": ["system_to_system_story", "data_pipeline_story"]
+          },
+          {
+            "id": "SS-SOLUTION_FOCUSED",
+            "condition": "goal_is_solution_focused",
+            "dimension": "invest_v",
+            "severity": "critical",
+            "critical_weight": 2,
+            "confidence": "medium",
+            "question": "You've described HOW to solve something. What is the user actually trying to accomplish?",
+            "improvement_prompt": "Reframe the goal as the outcome the user wants, not the feature they need"
+          },
+          {
+            "id": "SS-UNCLEAR_BENEFIT",
+            "condition": "benefit_unclear_or_missing",
+            "dimension": "invest_v",
+            "severity": "critical",
+            "critical_weight": 3,
+            "confidence": "high",
+            "question": "What problem does this solve for the user? What happens if we don't build this?",
+            "improvement_prompt": "Connect the goal to a specific user pain point or business outcome"
+          }
+        ]
+      },
+      "value_clarity": {
+        "description": "Story addresses a real user need with clear business justification",
+        "evaluation_triggers": [
+          {
+            "id": "VC-INTERNAL_FOCUS",
+            "condition": "internal_system_focus",
+            "dimension": "invest_v",
+            "severity": "critical",
+            "critical_weight": 2,
+            "confidence": "medium",
+            "question": "This seems focused on internal system needs. How does this create value for end users?",
+            "improvement_prompt": "Rewrite from the perspective of someone who will actually use this feature"
+          },
+          {
+            "id": "VC-NICE_TO_HAVE",
+            "condition": "nice_to_have_language",
+            "dimension": "invest_v",
+            "severity": "advisory",
+            "critical_weight": 1,
+            "confidence": "medium",
+            "question": "This feels like a nice-to-have. What user research or data supports building this now?",
+            "improvement_prompt": "Add context about the user problem this solves and its priority"
+          },
+          {
+            "id": "VC-VAGUE_BUSINESS",
+            "condition": "vague_business_case",
+            "dimension": "invest_v",
+            "severity": "advisory",
+            "critical_weight": 1,
+            "confidence": "high",
+            "question": "How will you know if this story succeeds? What changes for users or the business?",
+            "improvement_prompt": "Define success metrics or observable user behavior changes"
+          }
+        ]
+      },
+      "scope_appropriateness": {
+        "description": "Story is appropriately sized and focused for effective delivery",
+        "evaluation_triggers": [
+          {
+            "id": "SA-TOO_MANY_AC",
+            "condition": "too_many_acceptance_criteria",
+            "dimension": "invest_s",
+            "severity": "critical",
+            "critical_weight": 1,
+            "confidence": "high",
+            "question": "This story has many acceptance criteria. What's the smallest valuable piece you could deliver first?",
+            "improvement_prompt": "Consider splitting into multiple stories, each delivering standalone value",
+            "auto_suggest_splits": {
+              "enabled": false,
+              "note": "Feature planned for future release"
+            }
+          },
+          {
+            "id": "SA-MULTIPLE_USERS",
+            "condition": "multiple_user_types",
+            "dimension": "invest_s",
+            "severity": "advisory",
+            "critical_weight": 1,
+            "confidence": "medium",
+            "question": "This story serves multiple user types. Should this be separate stories for each user's needs?",
+            "improvement_prompt": "Each user type likely has different contexts and success criteria"
+          }
+        ]
+      },
+      "testability": {
+        "description": "Success criteria are specific and objectively verifiable",
+        "evaluation_triggers": [
+          {
+            "id": "T-SUBJECTIVE_LANG",
+            "condition": "subjective_language",
+            "dimension": "invest_t",
+            "severity": "critical",
+            "critical_weight": 2,
+            "confidence": "high",
+            "question": "Terms like 'user-friendly', 'intuitive', or 'fast' are subjective. How would a tester verify this works?",
+            "improvement_prompt": "Use specific, observable behaviors or measurable criteria"
+          },
+          {
+            "id": "T-IMPL_DETAILS",
+            "condition": "implementation_details",
+            "dimension": "invest_t",
+            "severity": "advisory",
+            "critical_weight": 1,
+            "confidence": "medium",
+            "question": "These criteria describe HOW to build it. What outcomes tell you it's working correctly?",
+            "improvement_prompt": "Focus on user-observable results, not technical implementation steps"
+          }
+        ]
+      },
+      "independence": {
+        "description": "Story can be developed without blocking dependencies",
+        "evaluation_triggers": [
+          {
+            "id": "I-HARD_DEPS",
+            "condition": "hard_dependencies_identified",
+            "dimension": "invest_i",
+            "severity": "critical",
+            "critical_weight": 2,
+            "confidence": "high",
+            "question": "This story depends on [X]. Can you deliver value without that dependency, or does sequencing need to change?",
+            "improvement_prompt": "Consider workarounds, mocking, or re-scoping to reduce coupling"
+          }
+        ]
+      },
+      "negotiability": {
+        "description": "Implementation details can be discussed and adjusted",
+        "evaluation_triggers": [
+          {
+            "id": "N-UI_PRESCRIPTIVE",
+            "condition": "prescriptive_ui_details",
+            "dimension": "invest_n",
+            "severity": "advisory",
+            "critical_weight": 1,
+            "confidence": "medium",
+            "question": "You've specified UI details like colors, layouts, or exact wording. Are these requirements or suggestions?",
+            "improvement_prompt": "Focus on user outcomes and let the team propose implementation approaches"
+          }
+        ]
+      }
+    },
+    "nfr_integration": {
+      "trigger_patterns": {
+        "security": ["encrypt", "auth", "login", "password", "secure", "privacy", "access", "permission"],
+        "accessibility": ["508", "wcag", "screen.?reader", "keyboard", "disabilit", "vision", "hearing"],
+        "compliance": ["audit", "regulat", "policy", "sox", "hipaa", "gdpr", "retention"],
+        "usability": ["interface", "experience", "navigation", "intuitive", "easy", "workflow", "ux"],
+        "performance": ["fast", "slow", "load.?time", "response", "speed", "optim", "latenc"],
+        "availability": ["uptime", "24.?7", "downtime", "backup", "disaster", "recovery", "availab"]
+      },
+      "nfr_exception_rules": {
+        "accessibility": ["system_to_system_story", "batch_processing_story"],
+        "usability": ["api_only_story", "backend_service_story"]
+      },
+      "nfr_check_first": "Before suggesting NFR considerations, ask: 'Are these requirements already addressed elsewhere in your project?'",
+      "nfr_prompts": {
+        "security": "Consider: Who can access this data? How is sensitive information protected? Are there authentication requirements?",
+        "accessibility": "Consider: Can users with disabilities access this feature? Does it meet 508 compliance requirements?",
+        "compliance": "Consider: Are there regulatory requirements? What audit trails are needed? Any approval workflows?",
+        "usability": "Consider: Is this intuitive for your target users? Have you tested the user workflow?",
+        "performance": "Consider: What response time do users expect? How will this perform under load?",
+        "availability": "Consider: When do users need this available? What happens if the system is down?"
+      }
+    },
+    "scoring_calculation": {
+      "weighted_critical_score": "sum(critical_weight for all fired critical triggers)",
+      "default_critical_weight": 1,
+      "advisory_count": "count of fired advisory triggers"
+    },
+    "routing_logic": {
+      "method": "weighted_critical_score",
+      "ready_for_development": "weighted_critical_score ≤ 2 AND advisory_count ≤ 2 AND no missing fundamentals",
+      "needs_refinement": "weighted_critical_score 3-6 OR advisory_count 3+ OR 1 missing fundamental", 
+      "requires_research": "weighted_critical_score ≥ 7 OR 2+ missing fundamentals"
+    },
+    "overall_assessment": {
+      "positive_reinforcement": "When no major issues detected: 'Story structure looks solid! No critical gaps identified.'",
+      "quality_indicators": {
+        "ready_for_development": [
+          "Clear user need and benefit",
+          "Specific, testable acceptance criteria",
+          "Appropriately scoped for one iteration",
+          "No blocking dependencies"
+        ],
+        "needs_refinement": [
+          "Missing key story components",
+          "Vague or subjective criteria",
+          "Too large or unfocused scope",
+          "Hard dependencies on other work"
+        ],
+        "requires_research": [
+          "Unclear user problem or value",
+          "Unknown technical complexity",
+          "Missing business context",
+          "Undefined success metrics"
+        ]
+      },
+      "next_steps_suggestions": {
+        "ready_for_development": "Story appears well-defined. Consider adding any relevant NFR considerations before development starts.",
+        "needs_refinement": "Focus on critical issues first: [list specific critical triggers]. Advisory improvements can be addressed as time permits.",
+        "requires_research": "Step back and validate the user problem. Consider user interviews, prototyping, or technical spikes before writing detailed stories."
+      },
+      "optional_quality_metric": {
+        "description": "For stakeholders requiring numeric indicators",
+        "calculation": "max(0, 1 - (weighted_critical_score / 10 + advisory_count * 0.1))",
+        "interpretation": "0.7+ = Good, 0.4-0.7 = Needs Work, <0.4 = Requires Research",
+        "calibration_note": "Weights should be tuned based on team's story quality distribution"
+      },
+      "telemetry_tracking": {
+        "event_payload": "story_id, trigger_id, action, timestamp, user_role",
+        "capture_events": ["trigger_fired", "trigger_marked_resolved", "trigger_dismissed", "improvement_implemented"],
+        "analytics_dimensions": ["invest_dimension", "trigger_confidence", "story_domain", "team_id"]
+      }
+    },
+    "usage_guidance": {
+      "story_tagging_requirement": "Stories must include story_tags array for exception rule processing",
+      "for_authors": "Questions ≠ blockers. Use your judgment to prioritize which feedback to address.",
+      "for_reviewers": "Focus on critical items first. Advisory suggestions are opportunities, not requirements.",
+      "confidence_interpretation": "High confidence = likely accurate, Medium = review carefully, Low = consider context"
+    }
+  }
+}
